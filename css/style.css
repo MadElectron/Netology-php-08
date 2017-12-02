@@ -2,6 +2,20 @@
     font-family: "Arial", sans-serif;
 }
 
+.login {
+    width:  600px;
+    margin: 0 auto;
+    padding: 0 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.login input {
+    margin: 0 auto 10px;
+    display: block;
+}
+
 label {
     display: block;
 }
@@ -49,4 +63,10 @@ li.right {
 
 .certificate {
     width: 400px;
+}
+
+.error {
+    font-weight: bold;
+    font-size: 0.8em;
+    color:  red;
 }
