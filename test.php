@@ -1,3 +1,35 @@
+<?php 
+    session_start();
+
+    if(!$_SESSION['user']) {
+        http_response_code(403);
+        echo 'Вход только для авторизованных пользователей!';
+        exit;
+    }
+
+    $testId = $_GET['id'];
+
+    $json = file_get_contents('tests/tests.json');
+    $data = json_decode($json, true);
+
+    $test = null;
+
+    // Searching test in array by 'id' field
+    foreach ($data as $datum) {
+        if ($datum['id'] == $testId) {
+            $test = $datum;
+            break;
+        }
+    }
+
+    if(!$test) {
+        http_response_code(404);
+        exit;
+    }
+
+    $name = $test['name'];
+
+?>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,32 +40,13 @@
 </head>
 <body>
     <div class="container">
-        <?php 
-            $testId = $_GET['id'];
-
-            $json = file_get_contents('tests/tests.json');
-            $data = json_decode($json, true);
-
-            $test = null;
-
-            // Searching test in array by 'id' field
-            foreach ($data as $datum) {
-                if ($datum['id'] == $testId) {
-                    $test = $datum;
-                    break;
-                }
-            }
-
-            if(!$test) {
-                http_response_code(404);
-                // echo '<p class="alert">Теста с id <strong>'.$testId.'</strong> не существует!</p>';
-                exit;
-            }
-
-            $name = $test['name'];
-
-        ?>   
-
+         <header id="header">
+            <div class="container">
+                <p>Вы вошли как <?= $_SESSION['user'] ?>(<?= $_SESSION['is_admin'] ? 'Адмнистратор' : 'Гость' ?>) | 
+                    <a href="logout.php">Выйти</a>
+                </p>
+            </div>
+        </header> 
         <h1>Тест <?php echo $testId.' .'.$name ?></h1>
         <nav>
             <ul>
@@ -50,7 +63,7 @@
             if(isset($_POST['submit'])) :
                 $result = array_sum($_POST);
                 $qCount = count($test['questions']);
-                $username = $_POST['username'];
+                $username = $_SESSION['user'];
                 $imagePath = "certificate.php?result=$result&qcount=$qCount&username=$username";
 
         ?>
@@ -79,7 +92,6 @@
             <?php } ?>
         <?php } ?>
         <br>
-        <input type="text" name="username" value="" placeholder="Введите ваше имя" required>
         <hr>
         <input type="submit" name="submit" value="Ответить">
         </form>

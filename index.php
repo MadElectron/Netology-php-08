@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Вход</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
 <?php  
     require_once 'functions.php';
 
     session_start();
 
     if ($_POST['login'] ?? '') {
-        $_SESSION['is_authorized'] = 1;
+        $_SESSION['user'] = $_POST['login'];
 
         $user = findUserByName($_POST['login']);
 
@@ -31,14 +23,23 @@
         }
     } 
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
     <div class="container">
         <div class="login">
-            <h2>Вход в систему</h2>
-            <p class="error"><?php echo nl2br($errorMsg ?? ''); ?></p>
+            <h2>Авторизация</h2>
+            <p class="error"><? nl2br($errorMsg ?? '') ?></p>
 
             <form action="" method="post" accept-charset="utf-8">
-                <input type="text" name="login" value="<?php echo $_POST['login'] ?? ''; ?>" placeholder="Логин" autofocus required>
+                <input type="text" name="login" value="<?= $_POST['login'] ?? '' ?>" placeholder="Логин" autofocus required>
                 <input type="text" name="pass" value="" placeholder="Пароль">
                 <input type="submit" name="submit" value="Войти">
             </form>    
