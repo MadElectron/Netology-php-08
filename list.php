@@ -34,11 +34,14 @@
             </ul>
         </nav>
         <hr>
+        <?php if($_SESSION['is_admin']) : ?>
         <form action="" method="post" accept-charset="utf-8">
             <input type="hidden" name="purge" value="1">
             <input type="submit" name="submit" value="Удалить тесты" onclick="alert('Вы действительно хоите удалить все тесты?')">
         </form>
         <hr>
+        
+        <?php endif; ?>
 
         <?php 
             $testsPath = 'tests/tests.json';
