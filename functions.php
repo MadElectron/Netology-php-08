@@ -148,3 +148,11 @@
         return false;
        
     }
+
+function setAppCookie($name, $value)
+{
+   if(!isset($_COOKIE[$name])) {
+        setcookie($name, $value);
+        $_COOKIE[$name] = $value;
+    } 
+}

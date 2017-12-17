@@ -74,3 +74,6 @@ li.right {
 header {
     text-align: right;
 }
+header > .container {
+    border-bottom: 1px solid #333;
+}
